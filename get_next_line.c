@@ -1,4 +1,4 @@
-	/* ************************************************************************** */
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
@@ -6,11 +6,20 @@
 /*   By: ayblin <ayblin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 17:23:09 by ayblin            #+#    #+#             */
-/*   Updated: 2021/12/09 03:40:59 by ayblin           ###   ########.fr       */
+/*   Updated: 2021/12/16 22:41:47 by ayblin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+void	free_ptr(char *str)
+{
+	if (str)
+	{
+		free(str);
+		str = NULL;
+	}
+}
 
 char	*get_next_line(int fd)
 {
@@ -53,24 +62,41 @@ int	read_file(int fd, char **s_str, char **buffer, char **line)
 		free_ptr(tmp);
 	}
 	free_ptr(*buffer);
-	get_line(line, s_buff);
+	get_line(line, s_str);
 	return (bytes_read);
 }
 
-char	*get_line(char	**line, char **s_str)
+void	get_line(char	**line, char **s_str)
 {
 	char	*tmp;
 	int		i;
 
 	i = 0;
 	tmp = *s_str;
-	while ((*s_str)[i] != '\n' && (*s_str)[i] != '\n')
+	while ((*s_str)[i] != '\n' || (*s_str)[i] != '\0')
 		i++;
 	if (ft_strchr(*s_str, '\n'))
+		*line = ft_substr(*s_str, 0, i + 1);
+}
+
+void	get_line(char **line, char **s_str)
+{
+	int		jump;
+	char	*temp;
+
+	jump = 0;
+	temp = *s_str;
+	while ((*s_str)[jump] != '\n' && (*s_str)[jump] != '\0')
+		jump++;
+	if (ft_strchr(*s_str, '\n'))
 	{
-		*line = ft_substr(s_str, 0, i + 1);
-		
+		*line = ft_substr(*s_str, 0, jump + 1);
+		*s_str = ft_strdup(*s_str + jump + 1);
 	}
 	else
-	
+	{
+		*line = ft_strdup(temp);
+		*s_str = NULL;
+	}
+	ft_free(temp);
 }

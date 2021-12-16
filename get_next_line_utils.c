@@ -6,7 +6,7 @@
 /*   By: ayblin <ayblin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 17:24:37 by ayblin            #+#    #+#             */
-/*   Updated: 2021/12/09 03:53:24 by ayblin           ###   ########.fr       */
+/*   Updated: 2021/12/13 17:54:54 by ayblin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,16 +67,42 @@ char	*ft_strjoin(char *s1, char *s2)
 	return (ret);
 }
 
-char	*ft_cutline(char *str)
+char	*ft_substr(char *s, unsigned int start, size_t len)
+{
+	size_t	i;
+	size_t	j;
+	char	*str;
+
+	str = malloc(sizeof(*s) * (len + 1));
+	if (!str)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (s[i])
+	{
+		if (i >= start && j < len)
+		{
+			str[j] = s[i];
+			j++;
+		}
+		i++;
+	}
+	str[j] = 0;
+	return (str);
+}
+
+char	*ft_strdup(char *s)
 {
 	char	*ret;
 	int		i;
 
 	i = 0;
-	ret = malloc(sizeof(char) * (ft_strlen(str) + 1));
-	while (str[i] && str[i] != '\n')
+	ret = malloc(sizeof(char) * ft_strlen(s) + 1);
+	if (!ret)
+		return (0);
+	while (s[i])
 	{
-		ret[i] = str[i];
+		ret[i] = s[i];
 		i++;
 	}
 	ret[i] = '\0';
