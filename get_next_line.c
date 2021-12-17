@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ayblin <ayblin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ayblin <ayblin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/08 17:23:09 by ayblin            #+#    #+#             */
-/*   Updated: 2021/12/16 22:41:47 by ayblin           ###   ########.fr       */
+/*   Updated: 2021/12/17 19:48:17 by ayblin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	*get_next_line(int fd)
 	}
 	if (!s_str)
 		s_str = ft_strdup("");
-	if (read_file(fd, &s_str, &buffer, &line) && *line == '\0')
+	if (read_file(fd, &s_str, &buffer, &line) < 1 && *line == '\0')
 	{
 		free_ptr(line);
 		return (NULL);
@@ -66,19 +66,6 @@ int	read_file(int fd, char **s_str, char **buffer, char **line)
 	return (bytes_read);
 }
 
-void	get_line(char	**line, char **s_str)
-{
-	char	*tmp;
-	int		i;
-
-	i = 0;
-	tmp = *s_str;
-	while ((*s_str)[i] != '\n' || (*s_str)[i] != '\0')
-		i++;
-	if (ft_strchr(*s_str, '\n'))
-		*line = ft_substr(*s_str, 0, i + 1);
-}
-
 void	get_line(char **line, char **s_str)
 {
 	int		jump;
@@ -98,5 +85,5 @@ void	get_line(char **line, char **s_str)
 		*line = ft_strdup(temp);
 		*s_str = NULL;
 	}
-	ft_free(temp);
+	free_ptr(temp);
 }
